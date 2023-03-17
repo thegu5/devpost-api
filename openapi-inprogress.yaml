@@ -1,0 +1,215 @@
+openapi: '3.1.0'
+info:
+  version: 0.1.0
+  title: Devpost API
+  description: In Development!
+  license: 
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://devpost.gu5.org
+security: []
+paths:
+  /software/{software}:
+    get:
+      summary: /software/{software}
+      operationId: getSoftware
+      description: This route won't automatically grab usernames of people who've liked the project or all of its updates - use the /software/{software}/likes and /software/{software}/updates routes for that.
+      parameters:
+        - name: software
+          in: path
+          description: The software's URI slug
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The software's name
+                    minLength: 1
+                    maxLength: 60
+                  tagline:
+                    type: string
+                    description: A short description of the software
+                    minLength: 1
+                    maxLength: 200
+                  description:
+                    type: string
+                    description: The software's description
+                    minLength: 1
+                  createdAt:
+                    type: string
+                    description: The software's creation date
+                    format: date-time
+                  slug:
+                    type: string
+                    description: The software's URI slug
+                  members:
+                    type: array
+                    description: Array of software member objects
+                    items:
+                      # TODO: make user card schema
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The member's name
+                        username:
+                          type: [string, null]
+                          description: The member's username
+                        url:
+                          type: [string, null]
+                          description: The member's profile URL
+                        avatar:
+                          type: string
+                          description: The member's avatar URL
+                        contribution:
+                          type: [string, null]
+                          description: The member's contribution to the software
+                  tags:
+                    type: array
+                    description: Array of tag strings
+                    items:
+                      type: string
+                      minLength: 1
+                  links:
+                    type: array
+                    description: Array of link strings
+                    maxLength: 255
+                  hackathons:
+                    type: array
+                    description: Array of hackathon submissions
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The hackathon's name
+                        slug:
+                          type: string
+                          description: The hackathon's URL (subdomain!) slug
+                        url:
+                          type: string
+                          description: The hackathon's URL
+                        thumbnail:
+                          type: string
+                          description: The hackathon's thumbnail URL
+                        prizes:
+                          type: [array, null]
+                          description: Array of prizes
+                          items:
+                            type: string
+                  video:
+                    type: [string, null]
+                    description: The software's video URL
+                  carousel:
+                    type: [array, null]
+                    description: Array of carousel item data
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          description: The carousel image's URL
+                        caption:
+                          type: [string, null]
+                          description: The carousel image's caption
+                          maxLength: 140
+                  # updates:
+                    # TODO: make user card schema
+                  stats:
+                    type: object
+                    description: Software statistics
+                    properties:
+                      likes:
+                        type: integer
+                        description: Number of likes
+                        minimum: 0
+                      comments:
+                        type: integer
+                        description: Number of comments
+                        minimum: 0
+                      updates:
+                        type: integer
+                        description: Number of updates
+                        minimum: 0
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+  /user/{user}: 
+    get:
+      summary: /user/{user}
+      operationId: getUser
+      description: Gets information about a user. Follows software pagination, and can get software hidden from their profile.
+      parameters:
+        - name: user
+          in: path
+          description: The user's username
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  name:
+                    type: string
+                    description: The user's full name
+                    minLength: 3
+                    maxLength: 81
+                  bio:
+                    type: [string, null]
+                    description: The user's bio
+                    maxLength: 140
+                  avatar:
+                    type: string
+                    description: A link to the user's avatar (can be a github/other platform cdn)
+                  links:
+                    type: object
+                    description: Links to social media. To maintain parity with the official site, the user's location is also here! Can be empty.
+                    properties: 
+                      location:
+                        type: [string, null]
+                        description: The user's location
+                      website:
+                        type: [string, null]
+                        description: The user's website URL
+                      github:
+                        type: [string, null]
+                        description: The user's GitHub profile URL
+                      twitter:
+                        type: [string, null]
+                        description: The user's Twitter profile URL
+                      linkedin:
+                        type: [string, null]
+                        description: The user's LinkedIn profile URL
+                  
+        "404":
+          description: Not Found
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
