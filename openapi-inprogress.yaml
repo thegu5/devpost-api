@@ -17,12 +17,7 @@ paths:
       operationId: getSoftware
       description: This route won't automatically grab usernames of people who've liked the project or all of its updates - use the /software/{software}/likes and /software/{software}/updates routes for that.
       parameters:
-        - name: software
-          in: path
-          description: The software's URI slug
-          required: true
-          schema:
-            type: string
+        - $ref: "#/components/parameters/Software"
       responses:
         "200":
           description: Successful response
@@ -56,24 +51,13 @@ paths:
                     type: array
                     description: Array of software member objects
                     items:
-                      # TODO: make user card schema
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                          description: The member's name
-                        username:
-                          type: [string, null]
-                          description: The member's username
-                        url:
-                          type: [string, null]
-                          description: The member's profile URL
-                        avatar:
-                          type: string
-                          description: The member's avatar URL
-                        contribution:
-                          type: [string, null]
-                          description: The member's contribution to the software
+                      allOf: 
+                        -  $ref: "#/components/schemas/UserCard"
+                        -  properties:
+                            contributions:
+                              type: string
+                              description: The member's contributions to the software
+                              maxLength: 140
                   tags:
                     type: array
                     description: Array of tag strings
@@ -82,36 +66,28 @@ paths:
                       minLength: 1
                   links:
                     type: array
-                    description: Array of link strings
-                    maxLength: 255
+                    description: An array of link URLs
+                    items: 
+                      type: string
+                      minLength: 1
+                      maxLength: 255
                   hackathons:
                     type: array
                     description: Array of hackathon submissions
                     items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                          description: The hackathon's name
-                        slug:
-                          type: string
-                          description: The hackathon's URL (subdomain!) slug
-                        url:
-                          type: string
-                          description: The hackathon's URL
-                        thumbnail:
-                          type: string
-                          description: The hackathon's thumbnail URL
-                        prizes:
-                          type: [array, null]
-                          description: Array of prizes
-                          items:
-                            type: string
+                      allOf: 
+                        -  $ref: "#/components/schemas/HackathonCard"
+                        - properties: 
+                            prizes:
+                              type: [array, 'null']
+                              description: Array of prizes
+                              items:
+                                type: string
                   video:
-                    type: [string, null]
+                    type: [string, 'null']
                     description: The software's video URL
                   carousel:
-                    type: [array, null]
+                    type: [array, 'null']
                     description: Array of carousel item data
                     items:
                       type: object
@@ -120,11 +96,10 @@ paths:
                           type: string
                           description: The carousel image's URL
                         caption:
-                          type: [string, null]
+                          type: [string, 'null']
                           description: The carousel image's caption
                           maxLength: 140
-                  # updates:
-                    # TODO: make user card schema
+                  # updates: TODO
                   stats:
                     type: object
                     description: Software statistics
@@ -142,27 +117,32 @@ paths:
                         description: Number of updates
                         minimum: 0
         "404":
-          description: Not Found
-          content:
+          $ref: "#/components/responses/NotFound"
+  /software/{software}/likes:
+    get:
+      summary: /software/{software}/likes
+      operationId: getSoftwareLikes
+      description: Gets a list of users who've liked a software.
+      parameters: 
+        - $ref: "#/components/parameters/Software"
+      responses:
+        "200":
+          description: Successful response
+          content: 
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error message
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserCard"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /user/{user}: 
     get:
       summary: /user/{user}
       operationId: getUser
       description: Gets information about a user. Follows software pagination, and can get software hidden from their profile.
       parameters:
-        - name: user
-          in: path
-          description: The user's username
-          required: true
-          schema:
-            type: string
+        - $ref: "#/components/parameters/User"
       responses:
         "200":
           description: Successful response
@@ -177,39 +157,227 @@ paths:
                     minLength: 3
                     maxLength: 81
                   bio:
-                    type: [string, null]
+                    type: [string, 'null']
                     description: The user's bio
                     maxLength: 140
                   avatar:
                     type: string
                     description: A link to the user's avatar (can be a github/other platform cdn)
-                  links:
+                  external:
                     type: object
-                    description: Links to social media. To maintain parity with the official site, the user's location is also here! Can be empty.
+                    description: External links + user-specified location.
                     properties: 
                       location:
-                        type: [string, null]
+                        type: [string, 'null']
                         description: The user's location
                       website:
-                        type: [string, null]
+                        type: [string, 'null']
                         description: The user's website URL
                       github:
-                        type: [string, null]
+                        type: [string, 'null']
                         description: The user's GitHub profile URL
                       twitter:
-                        type: [string, null]
+                        type: [string, 'null']
                         description: The user's Twitter profile URL
                       linkedin:
-                        type: [string, null]
+                        type: [string, 'null']
                         description: The user's LinkedIn profile URL
+                  skills:
+                    type: [array, 'null']
+                    description: Array of skills
+                    items:
+                      type: string
+                      minimum: 1
+                  interests:
+                    type: [array, 'null']
+                    description: Array of interests
+                    items:
+                      type: string
+                      enum: 
+                        - "AR/VR"
+                        - "Communication"
+                        - "Design"
+                        - "Education"
+                        - "Gaming"
+                        - "Lifehacks"
+                        - "Mobile"
+                        - "Productivity"
+                        - "Social Good"
+                        - "Beginner Friendly"
+                        - "Cybersecurity"
+                        - "DevOps"
+                        - "Enterprise"
+                        - "Health"
+                        - "Low/No Code"
+                        - "Music/Art"
+                        - "Quantum"
+                        - "Voice skills"
+                        - "Blockchain"
+                        - "Databases"
+                        - "E-commerce/Retail"
+                        - "Fintech"
+                        - "IoT"
+                        - "Machine Learning/AI"
+                        - "Open Ended"
+                        - "Robotic Process Automation"
+                        - "Web"
+                  stats:
+                    type: object
+                    description: User statistics for various categories
+                    properties: 
+                      projects:
+                        type: integer
+                        description: Number of projects
+                        minimum: 0
+                      hackathons:
+                        type: integer
+                        description: Number of hackathons
+                        minimum: 0
+                      achievements:
+                        type: integer
+                        description: Number of achievements
+                        minimum: 0
+                      followers:
+                        type: integer
+                        description: Number of followers
+                        minimum: 0
+                      following:
+                        type: integer
+                        description: Number of people the user is following
+                        minimum: 0
+                      likes:
+                        type: integer
+                        description: Number of projects the user has liked
+                        minimum: 0
+                  projects:
+                      type: [array, 'null']
+                      items: 
+                        $ref: "#/components/schemas/ProjectCard"
                   
         "404":
-          description: Not Found
-          content: 
+          $ref: "#/components/responses/NotFound"
+  /user/{user}/challenges:
+    get: 
+      summary: /user/{user}/challenges
+      operationId: getUserHackathons
+      description: Gets a list of hackathons a user has participated in and the project's status. Endpoint is 'challenges' to follow Devpost's urls.
+      parameters: 
+        - $ref: "#/components/parameters/User"
+      responses:
+        "200":
+          description: Successful response
+          content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error message
+              schema: 
+                type: array
+                items:
+                  allOf: 
+                    -  $ref: "#/components/schemas/HackathonCard"
+                    -  properties: 
+                        featured:
+                          type: boolean
+                          description: Whether the hackathon is featured
+                        status:
+                          type: [string, 'null']
+                          description: The project's status
+                          enum: 
+                            - null # no project
+                            - "Draft"
+                            - "Submitted"
+                            - "Winner"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components: 
+  responses: 
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message
+  parameters:
+    User:
+      name: user
+      in: path
+      description: The user's username
+      required: true
+      schema:
+        type: string
+    Software:
+      name: software
+      in: path
+      description: The software's URI slug
+      required: true
+      schema:
+        type: string
+  schemas:
+    UserCard:
+      type: object
+      description: Short user information provided outside of the user's profile
+      properties:
+        name:
+          type: string
+          description: The member's name
+        username:
+          type: [string, 'null']
+          description: The member's username
+        url:
+          type: [string, 'null']
+          description: The member's profile URL
+        avatar:
+          type: string
+          description: The member's avatar URL
+    HackathonCard:
+      type: object
+      description: Short hackathon information
+      properties:
+        name:
+          type: string
+          description: The hackathon's name
+        slug:
+          type: string
+          description: The hackathon's URL slug (subdomain!)
+        url:
+          type: string
+          description: The hackathon's URL
+        thumbnail:
+          type: string
+          description: The hackathon's thumbnail URL
+    ProjectCard:
+      type: object
+      properties: 
+        name:
+          type: string
+          description: The project's name
+        tagline:
+          type: string
+          description: The project's tagline
+        photo:
+          type: string
+          description: The project's thumbnail URL
+        slug:
+          type: string
+          description: The project's URL slug
+        url:
+          type: string
+          description: The project's URL
+        members:
+          type: array
+          items: 
+            $ref: "#/components/schemas/UserCard"
+        like_count:
+          type: integer
+          description: Number of likes
+          minimum: 0
+        comment_count:
+          type: integer
+          description: Number of comments
+          minimum: 0
+        winner:
+          type: boolean
+          description: Whether the project won a hackathon or not
