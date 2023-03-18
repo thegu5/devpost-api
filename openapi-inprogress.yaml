@@ -1,8 +1,8 @@
 openapi: '3.1.0'
 info:
   version: 0.1.0
-  title: Devpost API
-  description: In Development!
+  title: Unofficial Devpost API
+  description: In progress - nothing is hosted yet. Working on docs before the actual code
   license: 
     name: MIT
     url: https://opensource.org/licenses/MIT
