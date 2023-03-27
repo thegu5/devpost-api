@@ -167,6 +167,15 @@ paths:
                   avatar:
                     type: string
                     description: A link to the user's avatar (can be a github/other platform cdn)
+                  banner:
+                    type: [string, 'null']
+                    description: A link to the user's banner image (null if not set)
+                  bannerColor:
+                    type: [string]
+                    description: The user's banner color (#000000 if using a banner image)
+                    pattern: "^#[A-Fa-f0-9]{6}"
+                    minLength: 7
+                    maxLength: 7
                   external:
                     type: object
                     description: External links + user-specified location.
@@ -358,6 +367,24 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/AdvancedUserCard"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /user/{user}/likes:
+    get: 
+      summary: /user/{user}/likes
+      operationId: getUserLikes
+      description: Gets a list of projects a user has liked. Contains project card objects.
+      parameters: 
+        - $ref: "#/components/parameters/User"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectCard"
         "404":
           $ref: "#/components/responses/NotFound"
 components: 
