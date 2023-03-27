@@ -205,35 +205,7 @@ paths:
                     type: [array, 'null']
                     description: Array of interests
                     items:
-                      type: string
-                      enum: 
-                        - "AR/VR"
-                        - "Communication"
-                        - "Design"
-                        - "Education"
-                        - "Gaming"
-                        - "Lifehacks"
-                        - "Mobile"
-                        - "Productivity"
-                        - "Social Good"
-                        - "Beginner Friendly"
-                        - "Cybersecurity"
-                        - "DevOps"
-                        - "Enterprise"
-                        - "Health"
-                        - "Low/No Code"
-                        - "Music/Art"
-                        - "Quantum"
-                        - "Voice skills"
-                        - "Blockchain"
-                        - "Databases"
-                        - "E-commerce/Retail"
-                        - "Fintech"
-                        - "IoT"
-                        - "Machine Learning/AI"
-                        - "Open Ended"
-                        - "Robotic Process Automation"
-                        - "Web"
+                      $ref: "#/components/schemas/HackathonTags"
                   stats:
                     type: object
                     description: User statistics for various categories
@@ -392,7 +364,106 @@ paths:
                   $ref: "#/components/schemas/ProjectCard"
         "404":
           $ref: "#/components/responses/NotFound"
-components: 
+  /hackathon/{hackathon}:
+    get: 
+      summary: /hackathon/{hackathon}
+      operationId: getHackathon
+      description: Gets information about a hackathon.
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  name:
+                    type: string
+                    description: The hackathon's official name
+                  shortDescription:
+                    type: string
+                    description: The hackathon's short description
+                  description:
+                    type: string
+                    description: The hackathon's (long) description
+                  banner:
+                    type: [string, 'null']
+                    description: A link to the hackathon's banner image (null if not set)
+                  bannerColor:
+                    type: string
+                    description: The hackathon's banner color (#000000 if using a banner image)
+                    pattern: "^#[A-Fa-f0-9]{6}"
+                    minLength: 7
+                    maxLength: 7
+                  time:
+                    type: string
+                    description: Range of time the hackathon takes place
+                  location:
+                    type: string
+                    description: The hackathon's location
+                  address:
+                    type: [string, 'null']
+                    description: The address of the hackathon's location (null if online)
+                  availability:
+                    type: string
+                    description: The hackathon's availability
+                    enum: 
+                      - "Public"
+                      - "Invite only"
+                  prizeTotal:
+                    type: integer
+                    description: The hackathon's current available prize money
+                  participantCount:
+                    type: integer
+                    description: The number of participants in the hackathon
+                  tags:
+                    type: [array, 'null']
+                    description: Array of interest tags
+                    items: 
+                      $ref: "#/components/schemas/HackathonTags"
+                  requirementText:
+                    type: [string, 'null']
+                    description: The hackathon's requirement text block
+                  requirements:
+                    type: [string, 'null']
+                    description: The "who can participate" list
+                    
+                  prizes:
+                    type: array
+                    description: Array containing every prize for the hackathon
+                    items:
+                      type: object
+                      description: Names of the prizes in the hackathon
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the prize
+                        description:
+                          type: string
+                          description: The description of the prize
+                  judges:
+                    type: array
+                    description: Array containing every judge for the hackathon
+                    items:
+                      type: object
+                      description: Names of the judges in the hackathon
+                      minimum: 1
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the judge
+                        avatar:
+                          type: string
+                          description: The judge's avatar URL
+                  judgingCriteria:
+                    type: [string, 'null']
+                    description: The hackathon's judging criteria text block
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+
   responses: 
     NotFound:
       description: Not Found
@@ -419,7 +490,45 @@ components:
       required: true
       schema:
         type: string
+    Hackathon:
+      name: hackathon
+      in: path
+      description: The hackathon's URL slug
+      required: true
+      schema: 
+        type: string
   schemas:
+    HackathonTags:
+      type: string
+      description: Hackathon tags (interests)
+      enum: 
+        - "AR/VR"
+        - "Communication"
+        - "Design"
+        - "Education"
+        - "Gaming"
+        - "Lifehacks"
+        - "Mobile"
+        - "Productivity"
+        - "Social Good"
+        - "Beginner Friendly"
+        - "Cybersecurity"
+        - "DevOps"
+        - "Enterprise"
+        - "Health"
+        - "Low/No Code"
+        - "Music/Art"
+        - "Quantum"
+        - "Voice skills"
+        - "Blockchain"
+        - "Databases"
+        - "E-commerce/Retail"
+        - "Fintech"
+        - "IoT"
+        - "Machine Learning/AI"
+        - "Open Ended"
+        - "Robotic Process Automation"
+        - "Web"
     UserCard:
       type: object
       description: Short user information provided outside of the user's profile
