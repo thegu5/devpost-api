@@ -462,6 +462,37 @@ paths:
                     description: The hackathon's judging criteria text block
         "404":
           $ref: "#/components/responses/NotFound"
+  /hackathon/{hackathon}/updates:
+    get: 
+      summary: /hackathon/{hackathon}/updates
+      operationId: getHackathonupdates
+      description: Gets an array of updates for a hackathon
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    time:
+                      type: string
+                      description: Relative time of the update
+                    title:
+                      type: string
+                      description: The update's title
+                    slug:
+                      type: string
+                      description: The update's URI slug
+                    content:
+                      type: string
+                      description: The update's content
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
 
   responses: 
