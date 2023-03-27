@@ -264,8 +264,13 @@ paths:
                         minimum: 0
                   projects:
                       type: [array, 'null']
-                      items: 
-                        $ref: "#/components/schemas/ProjectCard"
+                      items:
+                        allOf: 
+                          - $ref: "#/components/schemas/ProjectCard"
+                          - properties:
+                              featured:
+                                type: boolean
+                                description: Whether the project is was featured by the user (yellow star on profile)
                   
         "404":
           $ref: "#/components/responses/NotFound"
