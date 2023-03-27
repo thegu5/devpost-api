@@ -58,6 +58,10 @@ paths:
                               type: string
                               description: The member's contributions to the software
                               maxLength: 140
+                            bio:
+                              type: [string, 'null']
+                              description: The member's bio
+                              maxLength: 140
                   tags:
                     type: array
                     description: Array of tag strings
@@ -287,7 +291,75 @@ paths:
                             - "Winner"
         "404":
           $ref: "#/components/responses/NotFound"
-
+  /user/{user}/achievements:
+    get: 
+      summary: /user/{user}/achievements
+      operationId: getUserAchievements
+      description: Gets a list of achievements a user has earned.
+      parameters: 
+        - $ref: "#/components/parameters/User"
+      responses:
+        "200":
+          description: Successful response
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 10
+                  properties: 
+                    name:
+                      type: string
+                      description: The achievement's name
+                    description:
+                      type: string
+                      description: The achievement's description
+                    image:
+                      type: string
+                      description: The achievement's image URL
+                    date:
+                      type: string
+                      description: The date the achievement was earned
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /user/{user}/followers:
+    get: 
+      summary: /user/{user}/followers
+      operationId: getUserFollowers
+      description: Gets a list of users following a user. Contains advanced user card objects.
+      parameters: 
+        - $ref: "#/components/parameters/User"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdvancedUserCard"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /user/{user}/following:
+    get: 
+      summary: /user/{user}/following
+      operationId: getUserFollowing
+      description: Gets a list of users a user is following. Contains advanced user card objects.
+      parameters: 
+        - $ref: "#/components/parameters/User"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdvancedUserCard"
+        "404":
+          $ref: "#/components/responses/NotFound"
 components: 
   responses: 
     NotFound:
@@ -332,6 +404,42 @@ components:
         avatar:
           type: string
           description: The member's avatar URL
+    # define a schema that expands on th UserCard schema, but adds stats
+    AdvancedUserCard:
+      allOf:
+        - $ref: "#/components/schemas/UserCard"
+        - type: object
+          properties:
+            bannerColor:
+              type: string
+              description: The user card's banner color (hex code)
+              pattern: "^#[A-Fa-f0-9]{6}"
+              minimum: 7
+              maximum: 7
+            stats:
+              type: object
+              description: User statistics for various categories
+              properties: 
+                projects:
+                  type: integer
+                  description: Number of projects
+                  minimum: 0
+                hackathons:
+                  type: integer
+                  description: Number of hackathons
+                  minimum: 0
+                followers:
+                  type: integer
+                  description: Number of followers
+                  minimum: 0
+                achievements:
+                  type: integer
+                  description: Number of achievements
+                  minimum: 0
+                bio:
+                  type: [string, 'null']
+                  description: The user's bio
+                  maxLength: 140
     HackathonCard:
       type: object
       description: Short hackathon information
