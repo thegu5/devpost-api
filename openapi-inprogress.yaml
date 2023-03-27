@@ -462,10 +462,30 @@ paths:
                     description: The hackathon's judging criteria text block
         "404":
           $ref: "#/components/responses/NotFound"
+  # participants
+  # rules
+  /hackathon/{hackathon}/project-gallery:
+    get: 
+      summary: /hackathon/{hackathon}/project-gallery
+      operationId: getHackathonProjectGallery
+      description: Gets a list of projects in a hackathon's project gallery. Contains project card objects.
+      parameters:
+        - $ref: "#/components/parameters/Hackathon"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectCard"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates:
     get: 
       summary: /hackathon/{hackathon}/updates
-      operationId: getHackathonupdates
+      operationId: getHackathonUpdates
       description: Gets an array of updates for a hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
@@ -488,11 +508,47 @@ paths:
                     slug:
                       type: string
                       description: The update's URI slug
-                    content:
+                    contentPreview:
                       type: string
-                      description: The update's content
+                      description: Beginning of the update's content (full can be found at /hackathon/{hackathon}/updates/{update})
         "404":
           $ref: "#/components/responses/NotFound"
+  /hackathon/{hackathon}/updates/{update}:
+    get: 
+      summary: /hackathon/{hackathon}/updates/{update}
+      operationId: getHackathonUpdate
+      description: Gets information about a hackathon update
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+        - name: update
+          in: path
+          description: The update's URI slug
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  time:
+                    type: string
+                    description: Relative time of the update
+                  title:
+                    type: string
+                    description: The update's title
+                  slug:
+                    type: string
+                    description: The update's URI slug
+                  content:
+                    type: string
+                    description: The update's content
+        "404":
+          $ref: "#/components/responses/NotFound"
+  # discussions
 components:
 
   responses: 
