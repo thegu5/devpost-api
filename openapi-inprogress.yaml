@@ -723,7 +723,12 @@ paths:
                 description: Base forum topic object
                 properties: 
                   author:
-                    $ref: "#/components/schemas/UserCard"
+                    allOf: 
+                      -  $ref: "#/components/schemas/UserCard"
+                      -  properties: 
+                            manager:
+                              type: boolean
+                              description: Whether the user is a manager of the hackathon
                   time:
                     type: string
                     description: Relative time of the forum topic's creation
@@ -741,12 +746,18 @@ paths:
                       description: Base forum reply object
                       properties: 
                         author:
-                          $ref: "#/components/schemas/UserCard"
+                          allOf: 
+                            -  $ref: "#/components/schemas/UserCard"
+                            -  properties: 
+                                  manager:
+                                    type: boolean
+                                    description: Whether the user is a manager of the hackathon
                         time:
                           type: string
                           description: Relative time of the forum reply's creation
                         content:
-                          type: string  
+                          type: string
+                          description: Content of the forum reply
         "404":
           $ref: "#/components/responses/NotFound"
                   
