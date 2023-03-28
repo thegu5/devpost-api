@@ -462,7 +462,82 @@ paths:
                     description: The hackathon's judging criteria text block
         "404":
           $ref: "#/components/responses/NotFound"
-  # participants
+  /hackathon/{hackathon}/participants:
+    get: 
+      summary: /hackathon/{hackathon}/participants
+      operationId: getHackathonParticipants
+      description: Gets a list of participants in a hackathon. Contains extended user card objects.
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  allOf: 
+                    -  $ref: "#/components/schemas/UserCard"
+                    - properties: 
+                        stats:
+                          type: object
+                          description: The user's stats
+                          properties: 
+                            projects:
+                              type: integer
+                              description: The number of projects the user has created
+                            followers:
+                              type: integer
+                              description: The number of users following the user
+                            achievements:
+                              type: integer
+                              description: The number of achievements the user has earned
+                        specialty:
+                          type: [string, 'null']
+                          description: The user's specialty
+                        skills:
+                          type: [array, 'null']
+                          description: Array of skills the user has
+                          items: 
+                            type: string
+                            description: A skill the user has
+                        interests:
+                          type: [array, 'null']
+                          description: Array of interests the user has
+                          items: 
+                            $ref: "#/components/schemas/HackathonTags"
+                        teamStatus:
+                          type: [string, 'null']
+                          description: The participants's team status
+                          enum: 
+                            - 'Has a team'
+                            - 'Working solo'
+                            - 'Looking for a team'
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "403":
+          description: Server-side access token expired
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  error:
+                    type: string
+                    description: Error message
+        "501":
+          description: Server-side access token not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                              
+                        
   /hackathon/{hackathon}/rules:
     get: 
       summary: /hackathon/{hackathon}/rules
