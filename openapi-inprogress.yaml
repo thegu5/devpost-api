@@ -16,6 +16,8 @@ paths:
       summary: /software/{software}
       operationId: getSoftware
       description: This route won't automatically grab usernames of people who've liked the project or all of its updates - use the /software/{software}/likes and /software/{software}/updates routes for that.
+      tags: 
+        - Software
       parameters:
         - $ref: "#/components/parameters/Software"
       responses:
@@ -127,6 +129,8 @@ paths:
       summary: /software/{software}/likes
       operationId: getSoftwareLikes
       description: Gets a list of users who've liked a software.
+      tags: 
+        -  Software
       parameters: 
         - $ref: "#/components/parameters/Software"
       responses:
@@ -145,6 +149,8 @@ paths:
       summary: /user/{user}
       operationId: getUser
       description: Gets information about a user. Follows software pagination, and can get software hidden from their profile.
+      tags: 
+        -  User
       parameters:
         - $ref: "#/components/parameters/User"
       responses:
@@ -251,6 +257,8 @@ paths:
       summary: /user/{user}/challenges
       operationId: getUserHackathons
       description: Gets a list of hackathons a user has participated in and the project's status. Endpoint is 'challenges' to follow Devpost's urls.
+      tags: 
+        -  User
       parameters: 
         - $ref: "#/components/parameters/User"
       responses:
@@ -282,6 +290,8 @@ paths:
       summary: /user/{user}/achievements
       operationId: getUserAchievements
       description: Gets a list of achievements a user has earned.
+      tags: 
+        -  User
       parameters: 
         - $ref: "#/components/parameters/User"
       responses:
@@ -315,6 +325,8 @@ paths:
       summary: /user/{user}/followers
       operationId: getUserFollowers
       description: Gets a list of users following a user. Contains advanced user card objects.
+      tags: 
+        -  User
       parameters: 
         - $ref: "#/components/parameters/User"
       responses:
@@ -333,6 +345,8 @@ paths:
       summary: /user/{user}/following
       operationId: getUserFollowing
       description: Gets a list of users a user is following. Contains advanced user card objects.
+      tags: 
+        -  User
       parameters: 
         - $ref: "#/components/parameters/User"
       responses:
@@ -351,6 +365,8 @@ paths:
       summary: /user/{user}/likes
       operationId: getUserLikes
       description: Gets a list of projects a user has liked. Contains project card objects.
+      tags: 
+        -  User
       parameters: 
         - $ref: "#/components/parameters/User"
       responses:
@@ -369,6 +385,8 @@ paths:
       summary: /hackathon/{hackathon}
       operationId: getHackathon
       description: Gets information about a hackathon.
+      tags: 
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -467,6 +485,8 @@ paths:
       summary: /hackathon/{hackathon}/participants
       operationId: getHackathonParticipants
       description: Gets a list of participants in a hackathon. Contains extended user card objects.
+      tags:
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -536,13 +556,13 @@ paths:
                   error:
                     type: string
                     description: Error message
-                              
-                        
   /hackathon/{hackathon}/rules:
     get: 
       summary: /hackathon/{hackathon}/rules
       operationId: getHackathonRules
       description: Gets a markdown string containing the rules for a hackathon
+      tags: 
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
       responses: 
@@ -563,6 +583,8 @@ paths:
       summary: /hackathon/{hackathon}/project-gallery
       operationId: getHackathonProjectGallery
       description: Gets a list of projects in a hackathon's project gallery. Contains project card objects.
+      tags: 
+        -  Hackathon
       parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -581,6 +603,8 @@ paths:
       summary: /hackathon/{hackathon}/updates
       operationId: getHackathonUpdates
       description: Gets an array of updates for a hackathon
+      tags: 
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -612,6 +636,8 @@ paths:
       summary: /hackathon/{hackathon}/updates/{update}
       operationId: getHackathonUpdate
       description: Gets information about a hackathon update
+      tags: 
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
         - name: update
@@ -647,6 +673,8 @@ paths:
       summary: /hackathon/{hackathon}/updates
       operationId: getHackathonForumTopics
       description: Gets an array of forum topics for a hackathon
+      tags: 
+        -  Hackathon
       parameters: 
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -670,6 +698,7 @@ paths:
                       description: The topic's URI slug
         "404":
           $ref: "#/components/responses/NotFound"
+
 components:
 
   responses: 
