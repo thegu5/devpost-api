@@ -463,7 +463,26 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   # participants
-  # rules
+  /hackathon/{hackathon}/rules:
+    get: 
+      summary: /hackathon/{hackathon}/rules
+      operationId: getHackathonRules
+      description: Gets a markdown string containing the rules for a hackathon
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+      responses: 
+        "200":
+          description: Successful response
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  rules:
+                    type: string
+                    description: The hackathon's rules
+        "404":
+          $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/project-gallery:
     get: 
       summary: /hackathon/{hackathon}/project-gallery
