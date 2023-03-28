@@ -1,9 +1,9 @@
-openapi: '3.1.0'
+openapi: "3.1.0"
 info:
   version: 0.1.0
   title: Unofficial Devpost API
   description: In progress - nothing is hosted yet. Working on docs before the actual code
-  license: 
+  license:
     name: MIT
     url: https://opensource.org/licenses/MIT
 
@@ -16,7 +16,7 @@ paths:
       summary: /software/{software}
       operationId: getSoftware
       description: This route won't automatically grab usernames of people who've liked the project or all of its updates - use the /software/{software}/likes and /software/{software}/updates routes for that.
-      tags: 
+      tags:
         - Software
       parameters:
         - $ref: "#/components/parameters/Software"
@@ -53,15 +53,15 @@ paths:
                     type: array
                     description: Array of software member objects
                     items:
-                      allOf: 
-                        -  $ref: "#/components/schemas/UserCard"
-                        -  properties:
+                      allOf:
+                        - $ref: "#/components/schemas/UserCard"
+                        - properties:
                             contributions:
                               type: string
                               description: The member's contributions to the software
                               maxLength: 140
                             bio:
-                              type: [string, 'null']
+                              type: [string, "null"]
                               description: The member's bio
                               maxLength: 140
                   tags:
@@ -73,7 +73,7 @@ paths:
                   links:
                     type: array
                     description: An array of link URLs
-                    items: 
+                    items:
                       type: string
                       minLength: 1
                       maxLength: 255
@@ -81,19 +81,19 @@ paths:
                     type: array
                     description: Array of hackathon submissions
                     items:
-                      allOf: 
-                        -  $ref: "#/components/schemas/HackathonCard"
-                        - properties: 
+                      allOf:
+                        - $ref: "#/components/schemas/HackathonCard"
+                        - properties:
                             prizes:
-                              type: [array, 'null']
+                              type: [array, "null"]
                               description: Array of prizes
                               items:
                                 type: string
                   video:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The software's video URL
                   carousel:
-                    type: [array, 'null']
+                    type: [array, "null"]
                     description: Array of carousel item data
                     items:
                       type: object
@@ -102,7 +102,7 @@ paths:
                           type: string
                           description: The carousel image's URL
                         caption:
-                          type: [string, 'null']
+                          type: [string, "null"]
                           description: The carousel image's caption
                           maxLength: 140
                   # updates: TODO
@@ -129,14 +129,14 @@ paths:
       summary: /software/{software}/likes
       operationId: getSoftwareLikes
       description: Gets a list of users who've liked a software.
-      tags: 
-        -  Software
-      parameters: 
+      tags:
+        - Software
+      parameters:
         - $ref: "#/components/parameters/Software"
       responses:
         "200":
           description: Successful response
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -144,13 +144,13 @@ paths:
                   $ref: "#/components/schemas/UserCard"
         "404":
           $ref: "#/components/responses/NotFound"
-  /user/{user}: 
+  /user/{user}:
     get:
       summary: /user/{user}
       operationId: getUser
       description: Gets information about a user. Follows software pagination, and can get software hidden from their profile.
-      tags: 
-        -  User
+      tags:
+        - User
       parameters:
         - $ref: "#/components/parameters/User"
       responses:
@@ -160,21 +160,21 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: 
+                properties:
                   name:
                     type: string
                     description: The user's full name
                     minLength: 3
                     maxLength: 81
                   bio:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The user's bio
                     maxLength: 140
                   avatar:
                     type: string
                     description: A link to the user's avatar (can be a github/other platform cdn)
                   banner:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: A link to the user's banner image (null if not set)
                   bannerColor:
                     type: [string]
@@ -185,37 +185,37 @@ paths:
                   external:
                     type: object
                     description: External links + user-specified location.
-                    properties: 
+                    properties:
                       location:
-                        type: [string, 'null']
+                        type: [string, "null"]
                         description: The user's location
                       website:
-                        type: [string, 'null']
+                        type: [string, "null"]
                         description: The user's website URL
                       github:
-                        type: [string, 'null']
+                        type: [string, "null"]
                         description: The user's GitHub profile URL
                       twitter:
-                        type: [string, 'null']
+                        type: [string, "null"]
                         description: The user's Twitter profile URL
                       linkedin:
-                        type: [string, 'null']
+                        type: [string, "null"]
                         description: The user's LinkedIn profile URL
                   skills:
-                    type: [array, 'null']
+                    type: [array, "null"]
                     description: Array of skills
                     items:
                       type: string
                       minimum: 1
                   interests:
-                    type: [array, 'null']
+                    type: [array, "null"]
                     description: Array of interests
                     items:
                       $ref: "#/components/schemas/HackathonTags"
                   stats:
                     type: object
                     description: User statistics for various categories
-                    properties: 
+                    properties:
                       projects:
                         type: integer
                         description: Number of projects
@@ -241,44 +241,44 @@ paths:
                         description: Number of projects the user has liked
                         minimum: 0
                   projects:
-                      type: [array, 'null']
-                      items:
-                        allOf: 
-                          - $ref: "#/components/schemas/ProjectCard"
-                          - properties:
-                              featured:
-                                type: boolean
-                                description: Whether the project is was featured by the user (yellow star on profile)
-                  
+                    type: [array, "null"]
+                    items:
+                      allOf:
+                        - $ref: "#/components/schemas/ProjectCard"
+                        - properties:
+                            featured:
+                              type: boolean
+                              description: Whether the project is was featured by the user (yellow star on profile)
+
         "404":
           $ref: "#/components/responses/NotFound"
   /user/{user}/challenges:
-    get: 
+    get:
       summary: /user/{user}/challenges
       operationId: getUserHackathons
       description: Gets a list of hackathons a user has participated in and the project's status. Endpoint is 'challenges' to follow Devpost's urls.
-      tags: 
-        -  User
-      parameters: 
+      tags:
+        - User
+      parameters:
         - $ref: "#/components/parameters/User"
       responses:
         "200":
           description: Successful response
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
-                  allOf: 
-                    -  $ref: "#/components/schemas/HackathonCard"
-                    -  properties: 
+                  allOf:
+                    - $ref: "#/components/schemas/HackathonCard"
+                    - properties:
                         featured:
                           type: boolean
                           description: Whether the hackathon is featured
                         status:
-                          type: [string, 'null']
+                          type: [string, "null"]
                           description: The project's status
-                          enum: 
+                          enum:
                             - null # no project
                             - "Draft"
                             - "Submitted"
@@ -286,18 +286,18 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /user/{user}/achievements:
-    get: 
+    get:
       summary: /user/{user}/achievements
       operationId: getUserAchievements
       description: Gets a list of achievements a user has earned.
-      tags: 
-        -  User
-      parameters: 
+      tags:
+        - User
+      parameters:
         - $ref: "#/components/parameters/User"
       responses:
         "200":
           description: Successful response
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -305,7 +305,7 @@ paths:
                   type: object
                   minProperties: 1
                   maxProperties: 10
-                  properties: 
+                  properties:
                     name:
                       type: string
                       description: The achievement's name
@@ -321,13 +321,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /user/{user}/followers:
-    get: 
+    get:
       summary: /user/{user}/followers
       operationId: getUserFollowers
       description: Gets a list of users following a user. Contains advanced user card objects.
-      tags: 
-        -  User
-      parameters: 
+      tags:
+        - User
+      parameters:
         - $ref: "#/components/parameters/User"
       responses:
         "200":
@@ -341,13 +341,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /user/{user}/following:
-    get: 
+    get:
       summary: /user/{user}/following
       operationId: getUserFollowing
       description: Gets a list of users a user is following. Contains advanced user card objects.
-      tags: 
-        -  User
-      parameters: 
+      tags:
+        - User
+      parameters:
         - $ref: "#/components/parameters/User"
       responses:
         "200":
@@ -361,13 +361,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /user/{user}/likes:
-    get: 
+    get:
       summary: /user/{user}/likes
       operationId: getUserLikes
       description: Gets a list of projects a user has liked. Contains project card objects.
-      tags: 
-        -  User
-      parameters: 
+      tags:
+        - User
+      parameters:
         - $ref: "#/components/parameters/User"
       responses:
         "200":
@@ -381,22 +381,22 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}:
-    get: 
+    get:
       summary: /hackathon/{hackathon}
       operationId: getHackathon
       description: Gets information about a hackathon.
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
         "200":
           description: Successful response
           content:
             application/json:
-              schema: 
+              schema:
                 type: object
-                properties: 
+                properties:
                   name:
                     type: string
                     description: The hackathon's official name
@@ -407,7 +407,7 @@ paths:
                     type: string
                     description: The hackathon's (long) description
                   banner:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: A link to the hackathon's banner image (null if not set)
                   bannerColor:
                     type: string
@@ -422,12 +422,12 @@ paths:
                     type: string
                     description: The hackathon's location
                   address:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The address of the hackathon's location (null if online)
                   availability:
                     type: string
                     description: The hackathon's availability
-                    enum: 
+                    enum:
                       - "Public"
                       - "Invite only"
                   prizeTotal:
@@ -437,17 +437,17 @@ paths:
                     type: integer
                     description: The number of participants in the hackathon
                   tags:
-                    type: [array, 'null']
+                    type: [array, "null"]
                     description: Array of interest tags
-                    items: 
+                    items:
                       $ref: "#/components/schemas/HackathonTags"
                   requirementText:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The hackathon's requirement text block
                   requirements:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The "who can participate" list
-                    
+
                   prizes:
                     type: array
                     description: Array containing every prize for the hackathon
@@ -476,18 +476,18 @@ paths:
                           type: string
                           description: The judge's avatar URL
                   judgingCriteria:
-                    type: [string, 'null']
+                    type: [string, "null"]
                     description: The hackathon's judging criteria text block
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/participants:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/participants
       operationId: getHackathonParticipants
       description: Gets a list of participants in a hackathon. Contains extended user card objects.
       tags:
-        -  Hackathon
-      parameters: 
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
         "200":
@@ -496,14 +496,14 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
-                  allOf: 
-                    -  $ref: "#/components/schemas/UserCard"
-                    - properties: 
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/UserCard"
+                    - properties:
                         stats:
                           type: object
                           description: The user's stats
-                          properties: 
+                          properties:
                             projects:
                               type: integer
                               description: The number of projects the user has created
@@ -514,35 +514,35 @@ paths:
                               type: integer
                               description: The number of achievements the user has earned
                         specialty:
-                          type: [string, 'null']
+                          type: [string, "null"]
                           description: The user's specialty
                         skills:
-                          type: [array, 'null']
+                          type: [array, "null"]
                           description: Array of skills the user has
-                          items: 
+                          items:
                             type: string
                             description: A skill the user has
                         interests:
-                          type: [array, 'null']
+                          type: [array, "null"]
                           description: Array of interests the user has
-                          items: 
+                          items:
                             $ref: "#/components/schemas/HackathonTags"
                         teamStatus:
-                          type: [string, 'null']
+                          type: [string, "null"]
                           description: The participants's team status
-                          enum: 
-                            - 'Has a team'
-                            - 'Working solo'
-                            - 'Looking for a team'
+                          enum:
+                            - "Has a team"
+                            - "Working solo"
+                            - "Looking for a team"
         "404":
           $ref: "#/components/responses/NotFound"
         "403":
           description: Server-side access token expired
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 type: object
-                properties: 
+                properties:
                   error:
                     type: string
                     description: Error message
@@ -557,34 +557,34 @@ paths:
                     type: string
                     description: Error message
   /hackathon/{hackathon}/rules:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/rules
       operationId: getHackathonRules
       description: Gets a markdown string containing the rules for a hackathon
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
-      responses: 
+      responses:
         "200":
           description: Successful response
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 type: object
-                properties: 
+                properties:
                   rules:
                     type: string
                     description: The hackathon's rules
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/project-gallery:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/project-gallery
       operationId: getHackathonProjectGallery
       description: Gets a list of projects in a hackathon's project gallery. Contains project card objects.
-      tags: 
-        -  Hackathon
+      tags:
+        - Hackathon
       parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
@@ -599,13 +599,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/updates
       operationId: getHackathonUpdates
       description: Gets an array of updates for a hackathon
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
         "200":
@@ -616,7 +616,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties: 
+                  properties:
                     time:
                       type: string
                       description: Relative time of the update
@@ -632,13 +632,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates/{update}:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/updates/{update}
       operationId: getHackathonUpdate
       description: Gets information about a hackathon update
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
         - name: update
           in: path
@@ -649,11 +649,11 @@ paths:
       responses:
         "200":
           description: Successful response
-          content: 
+          content:
             application/json:
               schema:
                 type: object
-                properties: 
+                properties:
                   time:
                     type: string
                     description: Relative time of the update
@@ -669,13 +669,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/updates
       operationId: getHackathonForumTopics
       description: Gets an array of forum topics for a hackathon
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
       responses:
         "200":
@@ -686,7 +686,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties: 
+                  properties:
                     title:
                       type: string
                       description: Title of the forum topic
@@ -699,13 +699,13 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics/{topic}:
-    get: 
+    get:
       summary: /hackathon/{hackathon}/forum_topics/{topic}
       operationId: getHackathonForumTopicDetails
       description: Gets details of a hackathon's forum topic
-      tags: 
-        -  Hackathon
-      parameters: 
+      tags:
+        - Hackathon
+      parameters:
         - $ref: "#/components/parameters/Hackathon"
         - name: topic
           in: path
@@ -713,55 +713,53 @@ paths:
           required: true
           schema:
             type: string
-      responses: 
+      responses:
         "200":
           description: Successful response
-          content: 
+          content:
             application/json:
-              schema: 
-                type: object
-                properties: 
-                  author:
-                    allOf: 
-                      -  $ref: "#/components/schemas/UserCard"
-                      -  properties: 
-                            manager:
-                              type: boolean
-                              description: Whether the user is a manager of the hackathon
-                  time:
-                    type: string
-                    description: Relative time of the forum topic's creation
-                  title:
-                    type: string
-                    description: Title of the forum topic
-                  content:
-                    type: string
-                    description: Content of the forum topic
-                  replies:
-                    type: [array, 'null']
-                    description: Array of replies to the forum topic
-                    items: 
-                      type: object
-                      description: Base forum reply object
-                      properties: 
-                        author:
-                          allOf: 
-                            -  $ref: "#/components/schemas/UserCard"
-                            -  properties: 
-                                  manager:
-                                    type: boolean
-                                    description: Whether the user is a manager of the hackathon
-                        time:
-                          type: string
-                          description: Relative time of the forum reply's creation
-                        content:
-                          type: string
-                          description: Content of the forum reply
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Reply"
+                  - type: object
+                    properties:
+                      title:
+                        type: string
+                        description: Title of the forum topic
+                      replies:
+                        type: [array, "null"]
+                        description: Array of replies to the forum topic
+                        items:
+                          $ref: "#/components/schemas/Reply"
+
         "404":
           $ref: "#/components/responses/NotFound"
-                  
+  /software/{software}/updates:
+    get: 
+      summary: /software/{software}/updates
+      operationId: getSoftwareUpdates
+      description: Gets an array of updates and replies from a software
+      parameters: 
+        - $ref: "#/components/parameters/Software"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf: 
+                    -  $ref: "#/components/schemas/Reply"
+                    -  properties: 
+                          replies: 
+                            type: array
+                            items: 
+                              $ref: "#/components/schemas/Reply"
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
-  responses: 
+  responses:
     NotFound:
       description: Not Found
       content:
@@ -792,13 +790,30 @@ components:
       in: path
       description: The hackathon's URL slug
       required: true
-      schema: 
+      schema:
         type: string
   schemas:
+    Reply:
+      type: object
+      properties:
+        author:
+          allOf:
+            - $ref: "#/components/schemas/UserCard"
+            - type: object
+              properties:
+                manager:
+                  type: boolean
+                  description: Whether the user is a manager of the hackathon
+        time:
+          type: string
+          description: Relative time (or datetime string) of the forum reply's creation
+        content:
+          type: string
+          description: Content of the forum reply
     HackathonTags:
       type: string
       description: Hackathon tags (interests)
-      enum: 
+      enum:
         - "AR/VR"
         - "Communication"
         - "Design"
@@ -834,10 +849,10 @@ components:
           type: string
           description: The member's name
         username:
-          type: [string, 'null']
+          type: [string, "null"]
           description: The member's username
         url:
-          type: [string, 'null']
+          type: [string, "null"]
           description: The member's profile URL
         avatar:
           type: string
@@ -856,7 +871,7 @@ components:
             stats:
               type: object
               description: User statistics for various categories
-              properties: 
+              properties:
                 projects:
                   type: integer
                   description: Number of projects
@@ -874,7 +889,7 @@ components:
                   description: Number of achievements
                   minimum: 0
                 bio:
-                  type: [string, 'null']
+                  type: [string, "null"]
                   description: The user's bio
                   maxLength: 140
     HackathonCard:
@@ -895,7 +910,7 @@ components:
           description: The hackathon's thumbnail URL
     ProjectCard:
       type: object
-      properties: 
+      properties:
         name:
           type: string
           description: The project's name
@@ -913,7 +928,7 @@ components:
           description: The project's URL
         members:
           type: array
-          items: 
+          items:
             $ref: "#/components/schemas/UserCard"
         like_count:
           type: integer
