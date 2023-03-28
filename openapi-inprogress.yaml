@@ -9,7 +9,7 @@ info:
 
 servers:
   - url: https://devpost.gu5.org
-security: []
+security: [] # In the future, the api user could provide their own token for participant lists, (maybe)
 paths:
   /software/{software}:
     get:
@@ -698,9 +698,59 @@ paths:
                       description: The topic's URI slug
         "404":
           $ref: "#/components/responses/NotFound"
-
+  /hackathon/{hackathon}/forum_topics/{topic}:
+    get: 
+      summary: /hackathon/{hackathon}/forum_topics/{topic}
+      operationId: getHackathonForumTopicDetails
+      description: Gets details of a hackathon's forum topic
+      tags: 
+        -  Hackathon
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+        - name: topic
+          in: path
+          description: The topic's URI slug
+          required: true
+          schema:
+            type: string
+      responses: 
+        "200":
+          description: Successful response
+          content: 
+            application/json:
+              schema: 
+                type: object
+                description: Base forum topic object
+                properties: 
+                  author:
+                    $ref: "#/components/schemas/UserCard"
+                  time:
+                    type: string
+                    description: Relative time of the forum topic's creation
+                  title:
+                    type: string
+                    description: Title of the forum topic
+                  content:
+                    type: string
+                    description: Content of the forum topic
+                  replies:
+                    type: [array, 'null']
+                    description: Array of replies to the forum topic
+                    items: 
+                      type: object
+                      description: Base forum reply object
+                      properties: 
+                        author:
+                          $ref: "#/components/schemas/UserCard"
+                        time:
+                          type: string
+                          description: Relative time of the forum reply's creation
+                        content:
+                          type: string  
+        "404":
+          $ref: "#/components/responses/NotFound"
+                  
 components:
-
   responses: 
     NotFound:
       description: Not Found
@@ -782,7 +832,6 @@ components:
         avatar:
           type: string
           description: The member's avatar URL
-    # define a schema that expands on th UserCard schema, but adds stats
     AdvancedUserCard:
       allOf:
         - $ref: "#/components/schemas/UserCard"
