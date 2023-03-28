@@ -642,7 +642,34 @@ paths:
                     description: The update's content
         "404":
           $ref: "#/components/responses/NotFound"
-  # discussions
+  /hackathon/{hackathon}/forum_topics:
+    get: 
+      summary: /hackathon/{hackathon}/updates
+      operationId: getHackathonForumTopics
+      description: Gets an array of forum topics for a hackathon
+      parameters: 
+        - $ref: "#/components/parameters/Hackathon"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    title:
+                      type: string
+                      description: Title of the forum topic
+                    replies:
+                      type: integer
+                      description: Number of replies to a forum topic
+                    slug:
+                      type: string
+                      description: The topic's URI slug
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
 
   responses: 
