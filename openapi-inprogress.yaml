@@ -720,7 +720,6 @@ paths:
             application/json:
               schema: 
                 type: object
-                description: Base forum topic object
                 properties: 
                   author:
                     allOf: 
