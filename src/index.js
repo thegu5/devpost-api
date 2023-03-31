@@ -1,4 +1,8 @@
-const fastify = require('fastify')()
+const fastify = require('fastify')({
+  ignoreTrailingSlash: true,
+  logger: true,
+  trustProxy: 1
+})
 
 // Load all routes from the `routes` folder
 fastify.register(require('@fastify/autoload'), {
