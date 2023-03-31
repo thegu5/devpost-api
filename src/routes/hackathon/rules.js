@@ -46,7 +46,7 @@ const x = Xray({
 })
 
 module.exports = async function (fastify, options) {
-  fastify.get(':hackathon/rules', async (request, reply) => {
+  fastify.get('/:hackathon/rules', async (request, reply) => {
     const hackathon = request.params.hackathon
     const url = `https://${hackathon}.devpost.com/rules`
     const data = await x(url,

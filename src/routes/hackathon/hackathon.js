@@ -17,7 +17,7 @@ const x = Xray({
       return typeof value === 'string' ? value.match(/(#[0-F]{6})/g)[0] : value
     },
     img: function (value, index) {
-      if (value === null || value.match(/url\((.*?)\)/) === null) { return null }
+      if (value === null || value === undefined || value.match(/url\((.*?)\)/) === null) { return null }
       return typeof value === 'string' ? value.match(/url\((.*?)\)/)[1] : value
     },
     username: function (value, index) {
@@ -41,11 +41,15 @@ const x = Xray({
       } else {
         return true
       }
+    },
+    bghex: function (value) {
+      if (value === null || value === undefined || value.length === 0) { return null }
+      return typeof value === 'string' ? value.match(/background\: (#[0-F]{6})/g)[0] : value
     }
   }
 })
 module.exports = async function (fastify, options) {
-  fastify.get(':hackathon', async (request, reply) => {
+  fastify.get('/:hackathon', async (request, reply) => {
     const hackathon = request.params.hackathon
     const url = `https://${hackathon}.devpost.com/`
     const data = await x(url,
@@ -53,8 +57,8 @@ module.exports = async function (fastify, options) {
         name: 'div#introduction .row .content > h1',
         shortDescription: 'div#introduction .row .content > h3',
         description: '#challenge-description | trim',
-        // banner: "style:contains('#challenge-header')",
-        // bannerColor: "style:contains('#challenge-header')",
+        banner: "header#challenge-header > img@src | img",
+        // bannerColor: "style:contains('#challenge-header') | bghex",
         time: '#date-info-tag > time',
         location: 'table.is-marginless > tbody > tr > td > div > div:nth-child(2) | trim',
         address: 'table.is-marginless > tbody > tr > td > div > div:nth-child(2) > a@href | address',
