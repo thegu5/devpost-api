@@ -46,7 +46,7 @@ const x = Xray({
 })
 
 module.exports = async function (fastify, options) {
-  fastify.get('/user/:username/challenges', async (request, reply) => {
+  fastify.get(':username/challenges', async (request, reply) => {
     const username = request.params.username
     const url = `https://devpost.com/${username}/challenges`
     const data = await x(url,

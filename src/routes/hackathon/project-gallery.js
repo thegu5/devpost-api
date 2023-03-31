@@ -46,7 +46,7 @@ const x = Xray({
 })
 
 module.exports = async function (fastify, options) {
-  fastify.get('/hackathon/:hackathon/project-gallery/:limit', async (request, reply) => {
+  fastify.get(':hackathon/project-gallery/:limit', async (request, reply) => {
     const hackathon = request.params.hackathon
     const limit = parseInt(request.params.limit)
     const baseUrl = `https://${hackathon}.devpost.com/project-gallery?page=:page`
