@@ -1,4 +1,3 @@
-const Xray = require('@thegu5/x-ray')
 const x = require('../../xray.js');
 
 module.exports = async function (fastify, options) {
