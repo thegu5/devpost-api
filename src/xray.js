@@ -44,8 +44,9 @@ const x = Xray({
     },
     bghex: function (value) {
       if (value === null || value === undefined || value.length === 0) { return null }
-      return typeof value === 'string' ? value.match(/background: (#[0-F]{6})/g)[0] : value
-    }
+      const match = typeof value === 'string' ? value.match(/background(?:-color)?:\s*#?([0-9a-fA-F]{6})/) : null
+      return match ? '#' + match[1] : null
+    } 
   }
 })
 module.exports = x

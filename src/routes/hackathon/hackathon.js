@@ -31,7 +31,7 @@ module.exports = async function (fastify, options) {
         judges: x('.challenge_judge', [
           {
             name: '.row > div:nth-child(2) > p > strong',
-            avatar: '.user-photo@href'
+            avatar: 'img.user-photo@src'
           }
         ]),
         judgingCriteria: '#judging-criteria .no-bullet | trim'

@@ -22,7 +22,7 @@
   "homepage": "https://github.com/thegu5/devpost-api#readme",
   "dependencies": {
     "@fastify/autoload": "^5.7.1",
-    "@thegu5/x-ray": "^2.3.6",
+    "@thegu5/x-ray": "^2.3.8",
     "fastify": "^4.15.0"
   },
   "devDependencies": {
