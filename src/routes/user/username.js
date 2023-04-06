@@ -1,4 +1,4 @@
-const x = require('../../xray.js');
+const x = require('../../xray.js')
 
 module.exports = async function (fastify, options) {
   fastify.get('/:username', async (request, reply) => {

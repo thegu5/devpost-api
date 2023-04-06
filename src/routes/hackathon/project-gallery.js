@@ -1,4 +1,4 @@
-const x = require('../../xray.js');
+const x = require('../../xray.js')
 
 module.exports = async function (fastify, options) {
   fastify.get('/:hackathon/project-gallery', async (request, reply) => {
@@ -21,7 +21,7 @@ module.exports = async function (fastify, options) {
         winner: 'aside > img:nth-child(1)@src | exists'
         // featured: '.gallery-entry .ss-icon'
       }])
-      //except when href is #
+      // except when href is #
     }).paginate('.next_page:not(.unavailable) > a@href')
     return { data }
   })

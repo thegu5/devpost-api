@@ -1,4 +1,4 @@
-const x = require('../../xray.js');
+const x = require('../../xray.js')
 
 module.exports = async function (fastify, options) {
   fastify.get('/:hackathon', async (request, reply) => {
@@ -9,7 +9,7 @@ module.exports = async function (fastify, options) {
         name: 'div#introduction .row .content > h1',
         shortDescription: 'div#introduction .row .content > h3',
         description: '#challenge-description | trim',
-        banner: "header#challenge-header > img@src | img",
+        banner: 'header#challenge-header > img@src | img',
         // bannerColor: "style:contains('#challenge-header') | bghex",
         time: '#date-info-tag > time',
         location: 'table.is-marginless > tbody > tr > td > div > div:nth-child(2) | trim',
