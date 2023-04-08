@@ -46,7 +46,7 @@ const x = Xray({
       if (value === null || value === undefined || value.length === 0) { return null }
       const match = typeof value === 'string' ? value.match(/background(?:-color)?:\s*#?([0-9a-fA-F]{6})/) : null
       return match ? '#' + match[1] : null
-    } 
+    }
   }
 })
 module.exports = x
