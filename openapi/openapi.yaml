@@ -670,7 +670,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics:
     get:
-      summary: /hackathon/{hackathon}/updates
+      summary: /hackathon/{hackathon}/forum_topics
       operationId: getHackathonForumTopics
       description: Gets an array of forum topics for a hackathon
       tags:
