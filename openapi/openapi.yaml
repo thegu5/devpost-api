@@ -696,6 +696,10 @@ paths:
                     slug:
                       type: string
                       description: The topic's URI slug
+                    id:
+                      type: integer
+                      description: The topic's ID
+                      minimum: 1
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics/{topic}:

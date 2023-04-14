@@ -4,11 +4,19 @@ const x = Xray({
     trim: function (value) {
       return typeof value === 'string' ? value.trim() : value
     },
+    extratrim: function (value) {
+      return typeof value === 'string' ? value.replace(/\s\s+/g, ' ') : value
+    },
+    replace: function (value, search, replace) {
+      // isn't working for some reason... tried replacing extratrim w/ this and it didn't work
+      console.log(value.replace(search, replace))
+      return typeof value === 'string' ? value.replace(search, replace) : value
+    },
     newlinesplit: function (value, index) {
       return typeof value === 'string' ? value.split('\n')[index] : value
     },
-    regex: function (value, regex) {
-      return typeof value === 'string' ? value.matchAll(regex)[0] : value
+    regex: function (value, regex, index) {
+      return typeof value === 'string' ? value.match(new RegExp(regex))[index] : value
     },
     parentheses: function (value) {
       return typeof value === 'string' ? value.match(/\(([^)]+)\)/)[1] : value
@@ -44,6 +52,7 @@ const x = Xray({
     },
     bghex: function (value) {
       if (value === null || value === undefined || value.length === 0) { return null }
+      console.log("value " + value)
       const match = typeof value === 'string' ? value.match(/background(?:-color)?:\s*#?([0-9a-fA-F]{6})/) : null
       return match ? '#' + match[1] : null
     }
