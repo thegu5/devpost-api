@@ -745,6 +745,8 @@ paths:
       description: Gets an array of updates and replies from a software
       parameters: 
         - $ref: "#/components/parameters/Software"
+      tags:
+        - Software
       responses:
         "200":
           description: Successful response
