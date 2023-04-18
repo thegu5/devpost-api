@@ -23,6 +23,12 @@ module.exports = async function (fastify, options) {
       // exzcept when href is #
       }]).paginate('.next_page:not(.unavailable) > a@href')
     )
+    // temporary solution - if winner is null, set it to false
+    data.forEach(project => {
+      if (project.winner === null) {
+        project.winner = false
+      }
+    })
     return data
   })
 }

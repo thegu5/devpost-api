@@ -52,7 +52,6 @@ const x = Xray({
     },
     bghex: function (value) {
       if (value === null || value === undefined || value.length === 0) { return null }
-      console.log("value " + value)
       const match = typeof value === 'string' ? value.match(/background(?:-color)?:\s*#?([0-9a-fA-F]{6})/) : null
       return match ? '#' + match[1] : null
     }

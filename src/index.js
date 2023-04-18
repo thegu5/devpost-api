@@ -2,11 +2,11 @@ const fastify = require('fastify')({
   ignoreTrailingSlash: true,
   logger: true,
   trustProxy: 1
+
 })
 const path = require('path')
 
 // Load all routes from the `routes` folder
-console.log(__dirname)
 fastify.register(require('@fastify/autoload'), {
   dir: path.join(__dirname, '/routes')
 })

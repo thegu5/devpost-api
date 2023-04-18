@@ -11,6 +11,8 @@ module.exports = async function (fastify, options) {
         tagline: '.page-header .row .columns .large | trim',
         description: '#app-details-left > div:nth-child(2) | trim',
         // createdAt: "2019-08-24T14:15:22Z", fuck i dont know how to find the creation time // ask thegu
+        // createdAt: 'div.large-12.columns.software-updates:last-child > .row > .large-8 .small-12 .columns > .media > .media-content > .author .small > .light-text > a > time@datetime',
+        // createdAt: 'article.content-section:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > p:nth-child(1) > span:nth-child(2) > a:nth-child(1) > time:nth-child(1)',
         slug: 'string', // taken care of later
         members: x('.software-team-member', [
           {

@@ -11,7 +11,7 @@ module.exports = async function (fastify, options) {
             title: 'p > a',
             replies: 'div:nth-child(2) > a > span.text | number',
             slug: 'p > a@href | slug',
-            id: 'p > a@href | slug | regex:"(.*?)-",1',
+            id: 'p > a@href | slug | regex:"(.*?)-",1'
           }
         ])
       })
