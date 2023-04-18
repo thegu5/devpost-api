@@ -5,7 +5,9 @@ const fastify = require('fastify')({
 
 })
 const path = require('path')
-
+fastify.register(require('fastify-cors'), {
+  origin: '*'
+})
 // Load all routes from the `routes` folder
 fastify.register(require('@fastify/autoload'), {
   dir: path.join(__dirname, '/routes')
