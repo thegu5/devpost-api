@@ -10,10 +10,8 @@ module.exports = async function (fastify, options) {
         name: '#app-title',
         tagline: '.page-header .row .columns .large | trim',
         description: '#app-details-left > div:nth-child(2) | trim',
-        // createdAt: "2019-08-24T14:15:22Z", fuck i dont know how to find the creation time // ask thegu
-        // createdAt: 'div.large-12.columns.software-updates:last-child > .row > .large-8 .small-12 .columns > .media > .media-content > .author .small > .light-text > a > time@datetime',
-        // createdAt: 'article.content-section:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > p:nth-child(1) > span:nth-child(2) > a:nth-child(1) > time:nth-child(1)',
-        slug: 'string', // taken care of later
+        createdAt: '.content-section.software-update.with-sidebar:last-child > div.row > div.large-8 > div.media > div.media-content > p.author > span.light-text > a > time@datetime',
+        slug: 'str', // taken care of later
         members: x('.software-team-member', [
           {
             name: '.row div:nth-child(2) .user-profile-link',
@@ -41,20 +39,20 @@ module.exports = async function (fastify, options) {
             ]
           }
         ]),
-        video: '.ytp-cued-thumbnail-overlay-image@style',
-        /* carousel: x('.slick-slide', [
-              {
-                url: "div > li > a@href",
-                caption: "div > li > a@data-title"
-              }
-            ]), */
+        video: 'iframe.video-embed@src',
+        carousel: x('#gallery > ul > li.text-center', [
+          {
+            url: "a@href",
+            caption: "a@src"
+          }
+        ]),
         stats: {
           likes: 'a.like-button > span.side-count | number',
           comments: 'a.comment-button > span.side-count | number',
           updates: 'span.side-count | number'
         }
       })
-    data.slug = `/software/${software}`
+    data.slug = `${software}`
     return data
   })
 }
