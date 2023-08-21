@@ -1,6 +1,6 @@
-const x = require('../../xray.js')
+import { x } from '../../utils.js'
 
-module.exports = async function (fastify, options) {
+export default async function (fastify, options) {
   fastify.get('/:hackathon/updates', async (request, reply) => {
     const hackathon = request.params.hackathon
     const url = `https://${hackathon}.devpost.com/updates`

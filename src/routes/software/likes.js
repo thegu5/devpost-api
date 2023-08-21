@@ -1,6 +1,6 @@
-const x = require('../../xray.js')
+import { x } from '../../utils.js'
 
-module.exports = async function (fastify, options) {
+export default async function (fastify, options) {
   fastify.get('/:software/likes', async (request, reply) => {
     const software = request.params.software
     const baseUrl = `https://devpost.com/software/${software}/likes?page=:page`

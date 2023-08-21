@@ -1,16 +1,25 @@
-const fastify = require('fastify')({
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+import Fastify from 'fastify'
+import cors from '@fastify/cors'
+import autoLoad from '@fastify/autoload'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const fastify = Fastify({
   ignoreTrailingSlash: true,
   logger: true,
   trustProxy: 1
-
 })
-const path = require('path')
-fastify.register(require('@fastify/cors'), {
+
+fastify.register(cors, {
   origin: '*'
 })
+
 // Load all routes from the `routes` folder
-fastify.register(require('@fastify/autoload'), {
-  dir: path.join(__dirname, '/routes')
+fastify.register(autoLoad, {
+  dir: join(__dirname, '/routes')
 })
 
 // Start the server

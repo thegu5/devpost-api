@@ -1,4 +1,5 @@
-const Xray = require('@thegu5/x-ray')
+import Xray from '@thegu5/x-ray'
+
 const x = Xray({
   filters: {
     trim: function (value) {
@@ -57,4 +58,5 @@ const x = Xray({
     }
   }
 })
-module.exports = x
+
+export { x }

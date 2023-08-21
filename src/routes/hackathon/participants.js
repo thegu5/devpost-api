@@ -1,6 +1,6 @@
-const x = require('../../xray.js')
+import { x } from '../../utils.js'
 
-module.exports = async function (fastify, options) {
+export default async function (fastify, options) {
   // TODO: add authentication for this one; need to be logged in to view participants
   fastify.get('/:hackathon/participants', async (request, reply) => {
     const hackathon = request.params.hackathon
