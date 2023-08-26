@@ -23,8 +23,11 @@
   "dependencies": {
     "@fastify/autoload": "^5.7.1",
     "@fastify/cors": "^8.3.0",
+    "@root/file-cookie-store": "^1.0.1",
     "@thegu5/x-ray": "^2.3.8",
-    "fastify": "^4.21.0"
+    "dotenv": "^16.3.1",
+    "fastify": "^4.21.0",
+    "fetch-cookie": "^2.1.0"
   },
   "devDependencies": {
     "standard": "*"

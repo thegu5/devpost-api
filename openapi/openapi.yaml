@@ -6,6 +6,16 @@ info:
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
+  contact:
+    name: '@thegu5 on discord'
+
+tags:
+  - name: 'Software'
+    description: 'Routes for software (projects), prefixed with /software'
+  - name: 'User'
+    description: 'Routes for users, prefixed with /user'
+  - name: 'Hackathon'
+    description: 'Routes for hackathons, prefixed with /hackathon'
 
 servers:
   - url: https://devpost.gu5.org
@@ -57,9 +67,8 @@ paths:
                         - $ref: "#/components/schemas/UserCard"
                         - properties:
                             contributions:
-                              type: string
+                              type: [string, "null"]
                               description: The member's contributions to the software
-                              maxLength: 140
                             bio:
                               type: [string, "null"]
                               description: The member's bio
@@ -416,7 +425,7 @@ paths:
                     minLength: 7
                     maxLength: 7
                   time:
-                    type: string
+                    type: [string, "null"]
                     description: Range of time the hackathon takes place
                   location:
                     type: string
@@ -536,18 +545,8 @@ paths:
                             - "Looking for a team"
         "404":
           $ref: "#/components/responses/NotFound"
-        "403":
-          description: Server-side access token expired
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Error message
-        "501":
-          description: Server-side access token not found
+        "503":
+          description: Server-side access token expired or not provided
           content:
             application/json:
               schema:
@@ -623,12 +622,15 @@ paths:
                     title:
                       type: string
                       description: The update's title
+                    url:
+                      type: string
+                      description: The update's url
                     slug:
                       type: string
                       description: The update's URI slug
                     contentPreview:
                       type: string
-                      description: Beginning of the update's content (full can be found at /hackathon/{hackathon}/updates/{update})
+                      description: Beginning of the update's content, in html (full can be found at /hackathon/{hackathon}/updates/{update})
         "404":
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates/{update}:

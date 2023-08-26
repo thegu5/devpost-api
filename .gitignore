@@ -1,3 +1,6 @@
+# Files with your devpost credentials (careful!)
+cookies.txt
+
 # Logs
 logs
 *.log

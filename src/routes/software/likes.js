@@ -7,23 +7,21 @@ export default async function (fastify, options) {
     const temp = []
     let page = 1
     let hasNextPage = true
-
+    // TODO: Use x-ray's built in pagination, this is a mess
     while (hasNextPage) {
       const url = baseUrl.replace(':page', page)
-      const data = await x(url, {
-        likes: x('a.like-row', [
-          {
-            name: '.content | trim',
-            username: '@href | slug',
-            url: '@href',
-            avatar: 'img@src'
-          }
-        ])
-      })
-      temp.push(...data.likes)
-      hasNextPage = data.likes.length > 0
+      const data = await x(url, x('a.like-row', [
+        {
+          name: '.content | trim',
+          username: '@href | slug',
+          url: '@href',
+          avatar: 'img@src'
+        }
+      ]))
+      temp.push(...data)
+      hasNextPage = data.length > 0
       page++
     }
-    return { temp }
+    return temp
   })
 }
