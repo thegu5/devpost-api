@@ -42,8 +42,8 @@ export default async function (fastify, options) {
         video: 'iframe.video-embed@src',
         carousel: x('#gallery > ul > li.text-center', [
           {
-            url: "a@href",
-            caption: "a@src"
+            url: 'a@href',
+            caption: 'a@src'
           }
         ]),
         stats: {

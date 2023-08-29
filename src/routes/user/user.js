@@ -40,26 +40,26 @@ export default async function (fastify, options) {
     // data.like_count = Object.fromEntries(Object.entries(data.like_count).map(([key, value]) => [key, parseInt(value)]));
     const searchurl = `https://devpost.com/software/search?query=%40%22${username}%22`
     const projects = await x(searchurl, x('.gallery-item', [{
-        name: 'div:nth-child(1) > h5:nth-child(1) | trim',
-        tagline: 'div:nth-child(1) > p.tagline | trim',
-        photo: '.software-entry > figure:nth-child(1) > img:nth-child(1)@src',
-        slug: 'a:nth-child(1)@href | trim | slug',
-        url: 'a:nth-child(1)@href',
-        members: x('.gallery-item .gallery-entry .members .user-profile-link', [{
-          name: 'img@alt',
-          username: '@data-url | username',
-          url: '@data-url',
-          avatar: 'img@src'
-        }]),
-        like_count: '.counts .like-count | trim | number',
-        comment_count: '.counts .comment-count | trim | number',
-        winner: 'aside | exists'
-        // featured: '.gallery-entry .ss-icon'
+      name: 'div:nth-child(1) > h5:nth-child(1) | trim',
+      tagline: 'div:nth-child(1) > p.tagline | trim',
+      photo: '.software-entry > figure:nth-child(1) > img:nth-child(1)@src',
+      slug: 'a:nth-child(1)@href | trim | slug',
+      url: 'a:nth-child(1)@href',
+      members: x('.gallery-item .gallery-entry .members .user-profile-link', [{
+        name: 'img@alt',
+        username: '@data-url | username',
+        url: '@data-url',
+        avatar: 'img@src'
+      }]),
+      like_count: '.counts .like-count | trim | number',
+      comment_count: '.counts .comment-count | trim | number',
+      winner: 'aside | exists'
+      // featured: '.gallery-entry .ss-icon'
     }]))
     // Jank. The 'exists' filter doesn't work. Aagh. (TODO: fix in @thegu5/x-ray)
     for (let i = 0; i < projects.length; i++) {
       if (projects[i].winner == null) {
-        projects[i].winner = false;
+        projects[i].winner = false
       }
     }
     data.projects = projects

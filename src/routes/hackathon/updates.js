@@ -14,7 +14,7 @@ export default async function (fastify, options) {
       }
     ]))
     for (let i = 0; i < data.length; i++) {
-      data[i].contentPreview = data[i].contentPreview.join("")
+      data[i].contentPreview = data[i].contentPreview.join('')
     }
     return data
   })

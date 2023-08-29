@@ -6,7 +6,7 @@ const store = new FileCookieStore('cookies.txt')
 const fetchCookie = makeFetchCookie(fetch, new makeFetchCookie.toughCookie.CookieJar(store, {}))
 // add cookie to fetchCookie
 
-const parsePage = async function(html) {
+const parsePage = async function (html) {
   // set html to be the html of the page
   const data = await x(html, x('.participant', [{
     name: 'div.user-name > h5 ',
@@ -25,11 +25,11 @@ const parsePage = async function(html) {
   }]))
   return data
 }
-const fetchPage = async function(url) {
+const fetchPage = async function (url) {
   console.log('fetching ', url)
   return fetchCookie(url, {
     headers: {
-      'X-Requested-With': 'XMLHttpRequest',
+      'X-Requested-With': 'XMLHttpRequest'
     }
   }).then(res => res.text())
 }
