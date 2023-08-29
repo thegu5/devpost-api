@@ -24,6 +24,8 @@ nodemon
 
 This project is almost ready for my purposes, but it may not be for yours.
 
+The plan is to migrate to [cheerio-json-mapper](https://www.npmjs.com/package/cheerio-json-mapper)! X-ray is very old and buggy so it'll be a breath of fresh air.
+
 Routes defined in the spec but not implemented:
 - Specific software updates
 - Specific forum topics
@@ -43,6 +45,5 @@ Information that needs to be defined:
 - Software updates + comments on them
 
 In the future:
-- Look into cheerio extract/others
 - Tests
 - Documentation for the participants cookie
