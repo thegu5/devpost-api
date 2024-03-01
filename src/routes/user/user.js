@@ -13,7 +13,6 @@ export default async function (fastify, options) {
         banner: "style:contains('#portfolio-cover') | img",
         bannerColor: "style:contains('#portfolio-cover') | hexcode",
         external: {
-          location: 'is.first-child',
           website: "a:contains('Website')@href",
           github: "a:contains('GitHub')@href",
           twitter: "a:contains('Twitter')@href",

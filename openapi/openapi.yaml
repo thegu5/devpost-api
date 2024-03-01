@@ -7,15 +7,15 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   contact:
-    name: '@thegu5 on discord'
+    name: "@thegu5 on discord"
 
 tags:
-  - name: 'Software'
-    description: 'Routes for software (projects), prefixed with /software'
-  - name: 'User'
-    description: 'Routes for users, prefixed with /user'
-  - name: 'Hackathon'
-    description: 'Routes for hackathons, prefixed with /hackathon'
+  - name: "Software"
+    description: "Routes for software (projects), prefixed with /software"
+  - name: "User"
+    description: "Routes for users, prefixed with /user"
+  - name: "Hackathon"
+    description: "Routes for hackathons, prefixed with /hackathon"
 
 servers:
   - url: https://devpost.gu5.org
@@ -23,7 +23,7 @@ security: [] # In the future, the api user could provide their own token for par
 paths:
   /software/{software}:
     get:
-      summary: /software/{software}
+      summary: Software
       operationId: getSoftware
       description: This route won't automatically grab usernames of people who've liked the project or all of its updates - use the /software/{software}/likes and /software/{software}/updates routes for that.
       tags:
@@ -135,7 +135,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /software/{software}/likes:
     get:
-      summary: /software/{software}/likes
+      summary: Software Likes
       operationId: getSoftwareLikes
       description: Gets a list of users who've liked a software.
       tags:
@@ -155,7 +155,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}:
     get:
-      summary: /user/{user}
+      summary: User
       operationId: getUser
       description: Gets information about a user. Follows software pagination, and can get software hidden from their profile.
       tags:
@@ -195,9 +195,6 @@ paths:
                     type: object
                     description: External links + user-specified location.
                     properties:
-                      location:
-                        type: [string, "null"]
-                        description: The user's location
                       website:
                         type: [string, "null"]
                         description: The user's website URL
@@ -263,9 +260,9 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}/challenges:
     get:
-      summary: /user/{user}/challenges
-      operationId: getUserHackathons
-      description: Gets a list of hackathons a user has participated in and the project's status. Endpoint is 'challenges' to follow Devpost's urls.
+      summary: User Challenges
+      operationId: getUserChallenges
+      description: Gets a list of hackathons (sometimes called 'challenges' internally) a user has participated in and the project's status. Endpoint is 'challenges' to follow Devpost's urls.
       tags:
         - User
       parameters:
@@ -296,7 +293,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}/achievements:
     get:
-      summary: /user/{user}/achievements
+      summary: User Achievements
       operationId: getUserAchievements
       description: Gets a list of achievements a user has earned.
       tags:
@@ -331,7 +328,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}/followers:
     get:
-      summary: /user/{user}/followers
+      summary: User Followers
       operationId: getUserFollowers
       description: Gets a list of users following a user. Contains advanced user card objects.
       tags:
@@ -351,7 +348,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}/following:
     get:
-      summary: /user/{user}/following
+      summary: User Following
       operationId: getUserFollowing
       description: Gets a list of users a user is following. Contains advanced user card objects.
       tags:
@@ -371,7 +368,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /user/{user}/likes:
     get:
-      summary: /user/{user}/likes
+      summary: User Likes
       operationId: getUserLikes
       description: Gets a list of projects a user has liked. Contains project card objects.
       tags:
@@ -391,7 +388,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}:
     get:
-      summary: /hackathon/{hackathon}
+      summary: Hackathon
       operationId: getHackathon
       description: Gets information about a hackathon.
       tags:
@@ -491,7 +488,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/participants:
     get:
-      summary: /hackathon/{hackathon}/participants
+      summary: Hackathon Participants
       operationId: getHackathonParticipants
       description: Gets a list of participants in a hackathon. Contains extended user card objects.
       tags:
@@ -545,8 +542,18 @@ paths:
                             - "Looking for a team"
         "404":
           $ref: "#/components/responses/NotFound"
+        "501":
+          description: Server-side access token not provided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
         "503":
-          description: Server-side access token expired or not provided
+          description: Server-side access token expired
           content:
             application/json:
               schema:
@@ -557,7 +564,7 @@ paths:
                     description: Error message
   /hackathon/{hackathon}/rules:
     get:
-      summary: /hackathon/{hackathon}/rules
+      summary: Hackathon Rules
       operationId: getHackathonRules
       description: Gets a markdown string containing the rules for a hackathon
       tags:
@@ -579,7 +586,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/project-gallery:
     get:
-      summary: /hackathon/{hackathon}/project-gallery
+      summary: Hackathon Project Gallery
       operationId: getHackathonProjectGallery
       description: Gets a list of projects in a hackathon's project gallery. Contains project card objects.
       tags:
@@ -599,7 +606,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates:
     get:
-      summary: /hackathon/{hackathon}/updates
+      summary: Hackathon Updates
       operationId: getHackathonUpdates
       description: Gets an array of updates for a hackathon
       tags:
@@ -635,8 +642,8 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/updates/{update}:
     get:
-      summary: /hackathon/{hackathon}/updates/{update}
-      operationId: getHackathonUpdate
+      summary: Hackathon Update Details
+      operationId: getHackathonUpdateDetails
       description: Gets information about a hackathon update
       tags:
         - Hackathon
@@ -672,7 +679,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics:
     get:
-      summary: /hackathon/{hackathon}/forum_topics
+      summary: Hackathon Forum Topics
       operationId: getHackathonForumTopics
       description: Gets an array of forum topics for a hackathon
       tags:
@@ -706,7 +713,7 @@ paths:
           $ref: "#/components/responses/NotFound"
   /hackathon/{hackathon}/forum_topics/{topic}:
     get:
-      summary: /hackathon/{hackathon}/forum_topics/{topic}
+      summary: Hackathon Forum Topic Details
       operationId: getHackathonForumTopicDetails
       description: Gets details of a hackathon's forum topic
       tags:
@@ -741,11 +748,11 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
   /software/{software}/updates:
-    get: 
-      summary: /software/{software}/updates
+    get:
+      summary: Software Updates
       operationId: getSoftwareUpdates
-      description: Gets an array of updates and replies from a software
-      parameters: 
+      description: Gets an array of updates and replies on a software
+      parameters:
         - $ref: "#/components/parameters/Software"
       tags:
         - Software
@@ -757,13 +764,13 @@ paths:
               schema:
                 type: array
                 items:
-                  allOf: 
-                    -  $ref: "#/components/schemas/Reply"
-                    -  properties: 
-                          replies: 
-                            type: array
-                            items: 
-                              $ref: "#/components/schemas/Reply"
+                  allOf:
+                    - $ref: "#/components/schemas/Reply"
+                    - properties:
+                        replies:
+                          type: array
+                          items:
+                            $ref: "#/components/schemas/Reply"
         "404":
           $ref: "#/components/responses/NotFound"
 components:
