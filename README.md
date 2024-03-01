@@ -54,6 +54,7 @@ Information that needs to be defined:
 
 In the future:
 
+- pnpm
 - Tests
 - Documentation for the auth cookie
 - Typescript???
